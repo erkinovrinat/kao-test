@@ -151,6 +151,10 @@
 
 @section('javascript')
     <script>
+        let region = $('#region_id');
+        let school = $('#school_id');
+        let classSelect = $('#class_id');
+
         $('#oblast_id').change((e) => {
             let id = $(e.target).val();
 
@@ -161,10 +165,15 @@
                     id: id
                 },
                 success: data => {
-                    let region = $('#region_id');
                     region.prop('disabled', false);
+                    school.prop('disabled', true);
+                    classSelect.prop('disabled', true);
+                    region.empty();
+                    school.empty();
+                    classSelect.empty();
+                    region.append('<option value="' + null + '">Выберите ...</option>');
                     for (item of data) {
-                        region.append('<option value="' + item.id + '">' + item.name + '</option>')
+                        region.append('<option value="' + item.id + '">' + item.name + '</option>');
                     }
                 },
                 error: () => {
@@ -173,7 +182,7 @@
             })
         });
 
-        $('#region_id').change(e => {
+        region.change(e => {
             let id = $(e.target).val();
 
             $.ajax({
@@ -183,8 +192,11 @@
                     id: id
                 },
                 success: data => {
-                    let school = $('#school_id');
                     school.prop('disabled', false);
+                    classSelect.prop('disabled', true);
+                    school.empty();
+                    classSelect.empty();
+                    school.append('<option value="' + null + '">Выберите ...</option>')
                     for (item of data) {
                         school.append('<option value="' + item.id + '">' + item.name + '</option>')
                     }
@@ -195,14 +207,15 @@
             })
         });
 
-        $('#school_id').change(e => {
-            let classSelect = $('#class_id');
+        school.change(e => {
 
             $.ajax({
                 url: "{{ route('api.grade.index') }}",
                 method: "GET",
                 success: data => {
                     classSelect.prop('disabled', false);
+                    classSelect.empty();
+                    classSelect.append('<option value="' + null + '">Выберите ...</option>')
                     for (item of data) {
                         classSelect.append('<option value="' + item.id + '">' + item.name + '</option>')
                     }
