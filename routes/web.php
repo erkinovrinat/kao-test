@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('user_actions', 'UserActionsController');
     Route::resource('topics', 'TopicsController');
     Route::post('topics_mass_destroy', ['uses' => 'TopicsController@massDestroy', 'as' => 'topics.mass_destroy']);
+    Route::resource('levels', 'LevelController');
+    Route::post('levels_mass_destroy', ['uses' => 'LevelController@massDestroy', 'as' => 'levels.mass_destroy']);
     Route::resource('questions', 'QuestionsController');
     Route::post('questions_mass_destroy', ['uses' => 'QuestionsController@massDestroy', 'as' => 'questions.mass_destroy']);
     Route::resource('questions_options', 'QuestionsOptionsController');
