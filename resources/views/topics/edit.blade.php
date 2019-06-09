@@ -13,6 +13,18 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 form-group">
+                    {!! Form::label('grade_id', 'Grade*', ['class' => 'control-label']) !!}
+                    {!! Form::select('grade_id', $grades, old('grade_id'), ['class' => 'form-control']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('grade_id'))
+                        <p class="help-block">
+                            {{ $errors->first('grade_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
                     {!! Form::label('title', 'Title*', ['class' => 'control-label']) !!}
                     {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>

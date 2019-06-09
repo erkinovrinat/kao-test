@@ -9,6 +9,7 @@ use App\Test;
 use App\Topic;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,7 +34,7 @@ class HomeController extends Controller
         $users = User::whereNull('role_id')->count();
         $quizzes = Test::count();
         $average = Test::avg('result');
-        $topics = Topic::all();
+        $topics = Topic::all()->where('grade_id', Auth::user()->class);
         return view('home', compact('questions', 'users', 'quizzes', 'average', 'topics'));
     }
 }

@@ -24,7 +24,7 @@ class UpdateTopicsRequest extends FormRequest
     {
         return [
             
-            'title' => 'required',
+            'grade_id' => 'required',
         ];
     }
 }

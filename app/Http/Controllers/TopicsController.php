@@ -33,7 +33,12 @@ class TopicsController extends Controller
      */
     public function create()
     {
-        return view('topics.create');
+        $relations = [
+            'grades' => \App\Grade::get()->pluck('name', 'id')->prepend('Please select', ''),
+        ];
+
+
+        return view('topics.create', $relations);
     }
 
     /**
@@ -58,9 +63,13 @@ class TopicsController extends Controller
      */
     public function edit($id)
     {
+        $relations = [
+            'grades' => \App\Grade::get()->pluck('name', 'id')->prepend('Please select', ''),
+        ];
+
         $topic = Topic::findOrFail($id);
 
-        return view('topics.edit', compact('topic'));
+        return view('topics.edit', compact('topic') + $relations);
     }
 
     /**
