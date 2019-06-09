@@ -24,6 +24,74 @@
                             </div>
                         </div>
 
+                        <div class="form-group {{ $errors->has('oblast_id') ? 'has_error' : '' }}">
+                            <label class="col-md-4 control-label" for="oblast_id">Выберите область</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="oblast_id" id="oblast_id">
+                                    <option value="{{ null }}">Выберите ...</option>
+                                    @foreach($oblasts as $oblast)
+                                        <option value="{{ $oblast->id }}">{{ $oblast->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('oblast_id'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('oblast_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('region_id') ? 'has_error' : '' }}">
+                            <label class="col-md-4 control-label" for="region_id">Выберите регион</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="region_id" id="region_id" disabled>
+                                    <option value="{{ null }}">Выберите ...</option>
+                                </select>
+
+                                @if ($errors->has('region_id'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('region_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('school_id') ? 'has_error' : '' }}">
+                            <label class="col-md-4 control-label" for="school_id">Выберите школу</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="school_id" id="school_id" disabled>
+                                    <option value="{{ null }}">Выберите ...</option>
+
+                                </select>
+
+                                @if ($errors->has('school_id'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('school_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('class') ? 'has_error' : '' }}">
+                            <label class="col-md-4 control-label" for="class_id">Ваш класс</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control"  name="class" id="class_id" disabled>
+                                    <option value="{{ null }}">Выберите ...</option>
+                                </select>
+
+                                @if ($errors->has('class'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('class') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
@@ -79,4 +147,70 @@
         </div>
     </div>
 </div>
-@endsection
+@stop
+
+@section('javascript')
+    <script>
+        $('#oblast_id').change((e) => {
+            let id = $(e.target).val();
+
+            $.ajax({
+                url: "{{ route('api.region.oblastId') }}",
+                method: "GET",
+                data: {
+                    id: id
+                },
+                success: data => {
+                    let region = $('#region_id');
+                    region.prop('disabled', false);
+                    for (item of data) {
+                        region.append('<option value="' + item.id + '">' + item.name + '</option>')
+                    }
+                },
+                error: () => {
+                    console.log("error");
+                }
+            })
+        });
+
+        $('#region_id').change(e => {
+            let id = $(e.target).val();
+
+            $.ajax({
+                url: "{{ route('api.school.regionId') }}",
+                method: "GET",
+                data: {
+                    id: id
+                },
+                success: data => {
+                    let school = $('#school_id');
+                    school.prop('disabled', false);
+                    for (item of data) {
+                        school.append('<option value="' + item.id + '">' + item.name + '</option>')
+                    }
+                },
+                error: () => {
+                    console.log("error");
+                }
+            })
+        });
+
+        $('#school_id').change(e => {
+            let classSelect = $('#class_id');
+
+            $.ajax({
+                url: "{{ route('api.grade.index') }}",
+                method: "GET",
+                success: data => {
+                    classSelect.prop('disabled', false);
+                    for (item of data) {
+                        classSelect.append('<option value="' + item.id + '">' + item.name + '</option>')
+                    }
+                },
+                error: () => {
+                    console.log("error");
+                }
+            })
+        })
+    </script>
+@stop

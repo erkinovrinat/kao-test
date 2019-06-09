@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Oblast;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -51,6 +52,8 @@ class RegisterController extends Controller
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'school_id' => 'required',
+            'class' => 'required',
         ]);
     }
 
@@ -65,7 +68,16 @@ class RegisterController extends Controller
         return User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
+            'class' => $data['class'],
+            'school_id' => $data['school_id'],
             'password' => bcrypt($data['password']),
+        ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', [
+            'oblasts' => Oblast::all(),
         ]);
     }
 }

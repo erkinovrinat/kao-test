@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Question;
 use App\Result;
 use App\Test;
+use App\Topic;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,7 @@ class HomeController extends Controller
         $users = User::whereNull('role_id')->count();
         $quizzes = Test::count();
         $average = Test::avg('result');
-        return view('home', compact('questions', 'users', 'quizzes', 'average'));
+        $topics = Topic::all();
+        return view('home', compact('questions', 'users', 'quizzes', 'average', 'topics'));
     }
 }

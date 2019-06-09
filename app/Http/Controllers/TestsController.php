@@ -19,24 +19,22 @@ class TestsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $topics = Topic::inRandomOrder()->limit(10)->get();
+//        $topics = Topic::inRandomOrder()->limit(10)->get();
 
-        $questions = Question::inRandomOrder()->limit(10)->get();
+        $questions = Question::where('topic_id', $request->id)->inRandomOrder()->limit(10)->get();
         foreach ($questions as &$question) {
             $question->options = QuestionsOption::where('question_id', $question->id)->inRandomOrder()->get();
         }
 
-        /*
-        foreach ($topics as $topic) {
-            if ($topic->questions->count()) {
-                $questions[$topic->id]['topic'] = $topic->title;
-                $questions[$topic->id]['questions'] = $topic->questions()->inRandomOrder()->first()->load('options')->toArray();
-                shuffle($questions[$topic->id]['questions']['options']);
-            }
-        }
-        */
+//        foreach ($topics as $topic) {
+//            if ($topic->questions->count()) {
+//                $questions[$topic->id]['topic'] = $topic->title;
+//                $questions[$topic->id]['questions'] = $topic->questions()->inRandomOrder()->first()->load('options')->toArray();
+//                shuffle($questions[$topic->id]['questions']['options']);
+//            }
+//        }
 
         return view('tests.create', compact('questions'));
     }
