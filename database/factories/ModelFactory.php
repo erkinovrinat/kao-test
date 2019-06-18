@@ -16,9 +16,28 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
-        'role_id' => 1,
+        'role_id' => null,
         'email' => $faker->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password = bcrypt('123123'),
         'remember_token' => str_random(10),
+        'school_id' => random_int(1, 135),
+        'class' => random_int(1, 135),
+    ];
+});
+
+$factory->define(App\Question::class, function (Faker\Generator $faker) {
+    return [
+        'topic_id' => random_int(1, 6),
+        'level_id' => random_int(1, 3),
+        'question_text' => $faker->text(50),
+        'answer_explanation' => $faker->text(50),
+    ];
+});
+
+$factory->define(App\QuestionsOption::class, function (Faker\Generator $faker) {
+    return [
+        'question_id' => random_int(80, 99),
+        'option' => $faker->text(10),
+        'correct' => random_int(0, 1),
     ];
 });

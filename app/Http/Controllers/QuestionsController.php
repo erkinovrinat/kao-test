@@ -36,6 +36,7 @@ class QuestionsController extends Controller
     {
         $relations = [
             'topics' => \App\Topic::get()->pluck('title', 'id')->prepend('Please select', ''),
+            'levels' => \App\Level::get()->pluck('name', 'id')->prepend('Please select', ''),
         ];
 
         $correct_options = [

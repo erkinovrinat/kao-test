@@ -23,7 +23,9 @@ class TestsController extends Controller
     {
 //        $topics = Topic::inRandomOrder()->limit(10)->get();
 
-        $questions = Question::where('topic_id', $request->id)->inRandomOrder()->limit(10)->get();
+        $questions = Question::where('topic_id', $request->id)->where('level_id', 1)->inRandomOrder()->limit(10)->get();
+        $questions = $questions->toBase()->merge(Question::where('topic_id', $request->id)->where('level_id', 2)->inRandomOrder()->limit(10)->get());
+        $questions = $questions->toBase()->merge(Question::where('topic_id', $request->id)->where('level_id', 3)->inRandomOrder()->limit(10)->get());
         foreach ($questions as &$question) {
             $question->options = QuestionsOption::where('question_id', $question->id)->inRandomOrder()->get();
         }

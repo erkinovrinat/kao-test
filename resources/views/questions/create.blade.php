@@ -24,6 +24,18 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
+                    {!! Form::label('level_id', 'Level*', ['class' => 'control-label']) !!}
+                    {!! Form::select('level_id', $levels, old('level_id'), ['class' => 'form-control']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('level_id'))
+                        <p class="help-block">
+                            {{ $errors->first('level_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
                     {!! Form::label('question_text', 'Question text*', ['class' => 'control-label']) !!}
                     {!! Form::textarea('question_text', old('question_text'), ['class' => 'form-control ', 'placeholder' => '']) !!}
                     <p class="help-block"></p>

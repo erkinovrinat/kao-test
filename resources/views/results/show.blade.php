@@ -24,7 +24,7 @@
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.results.fields.result')</th>
-                            <td>{{ $test->result }}/10</td>
+                            <td>{{ $test->result }}/{{ $results->count() }} | {{ round($test->result * 100 / $results->count()) }}</td>
                         </tr>
                     </table>
                 <?php $i = 1 ?>
