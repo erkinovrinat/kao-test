@@ -12,4 +12,9 @@ class School extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    public function students()
+    {
+        return $this->hasMany(User::class);
+    }
 }

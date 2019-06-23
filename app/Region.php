@@ -12,4 +12,9 @@ class Region extends Model
     {
         return $this->belongsTo(Oblast::class);
     }
+
+    public function schools()
+    {
+        return $this->hasMany(School::class);
+    }
 }

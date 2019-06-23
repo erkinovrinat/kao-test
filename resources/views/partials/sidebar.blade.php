@@ -51,6 +51,12 @@
                     <span class="title">@lang('quickadmin.questions-options.title')</span>
                 </a>
             </li>
+            <li class="{{ $request->segment(1) == 'reports' ? 'active' : '' }}">
+                <a href="{{ route('reports.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.reports.title')</span>
+                </a>
+            </li>
             <li>
                 <a href="#">
                     <i class="fa fa-users"></i>

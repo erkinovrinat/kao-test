@@ -71,4 +71,51 @@ class User extends Authenticatable
     {
         return $this->belongsTo(School::class);
     }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
+    public function tests()
+    {
+        return $this->hasMany(Test::class);
+    }
+
+    public static function filterResolver($request)
+    {
+        $fields = ['id', 'name', 'email', 'school_id', 'class'];
+        $students = User::where('role_id', null)->get();
+        if ($oblast_id = $request->oblast_id) {
+            $oblast = Oblast::find($oblast_id);
+            $schools = $oblast->schools;
+            $students = $schools->map(function ($item) {
+                return $item->students;
+            })->flatten();
+        }
+
+        if ($region_id = $request->region_id) {
+            $region = Region::find($region_id);
+            $schools = $region->schools;
+            $students = $schools->map(function ($item) {
+                return $item->students;
+            })->flatten();
+        }
+
+        if ($school_id = $request->school_id) {
+            $students = User::where('school_id', $school_id)->get();
+        }
+
+        if ($grade_id = $request->grade_id) {
+            $students = User::where('class', $grade_id)->get();
+        }
+
+        if ($student_id = $request->student_id) {
+            $students = User::where('id', $student_id)->get();
+        }
+
+        return $students->sortBy('id')->map(function ($item) use ($fields) {
+            return $item->only($fields);
+        });
+    }
 }
